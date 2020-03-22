@@ -1,0 +1,14 @@
+jupyter==1.0.0
+Keras==2.3.1
+matplotlib==3.1.2
+networkx==2.3
+notebook==6.0.3
+numpy==1.18.1
+pandas==1.00
+requests==2.22.0
+Rx==1.6.1
+scikit-learn==0.22.1
+scipy==1.4.1
+six==1.14.0
+tensorflow==2.1.0
+Flask==1.1.1
