@@ -5,7 +5,7 @@
             "name": "api",
             "image": "tentativafc/bootcamp-pi",
             "hostname": "api",
-            "essential": false,
+            "essential": true,
             "memory": 128
         }
     ]
