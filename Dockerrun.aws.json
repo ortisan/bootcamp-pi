@@ -1,0 +1,11 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "api",
+            "image": "tentativafc/bootcamp-pi",
+            "hostname": "api",
+            "essential": true
+        }
+    ]
+}

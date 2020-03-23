@@ -9,3 +9,14 @@ after_success:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - docker build -t tentativafc/bootcamp-pi .
     - docker push tentativafc/bootcamp-pi
+
+deploy:
+    provider: elasticbeanstalk
+    region: us-east-1
+    app: bootcamp-pi
+    env: BootcampPi-env
+    bucket_name: elasticbeanstalk-us-east-1-779882487479
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
