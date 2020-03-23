@@ -2,7 +2,9 @@ sudo: required
 
 services: docker
 
-after_success:
+script:
     - docker build -t tentativafc/bootcamp-pi .
+
+after_success:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - docker push tentativafc/bootcamp-pi
