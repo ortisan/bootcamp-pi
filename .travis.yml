@@ -2,12 +2,16 @@ sudo: required
 
 services: docker
 
+before_install:
+    - docker build -t tentativafc/bootcamp-pi-test -f ./Dockerfile.dev .
+
 script:
-    - docker build -t tentativafc/bootcamp-pi .
+    - docker run tentativafc/bootcamp-pi-test pytest
 
 after_success:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - docker build -t tentativafc/bootcamp-pi .
+    ### Login into docker cli
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin    
     - docker push tentativafc/bootcamp-pi
 
 deploy:
@@ -20,3 +24,6 @@ deploy:
         branch: master
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
+
+after_deploy:
+    - echo "done deploying"
