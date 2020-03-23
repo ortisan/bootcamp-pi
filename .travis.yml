@@ -1,0 +1,19 @@
+sudo: required
+
+services: docker
+
+after_success:
+    - docker build -t tentativafc/bootcamp-pi .
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push tentativafc/bootcamp-pi
+
+# deploy:
+#     provider: elasticbeanstalk
+#     access_key_id:
+#       secure: "Encrypted <access-key-id>="
+#     secret_access_key:
+#       secure: "Encypted <secret-access-key>="
+#     region: "us-east-1"
+#     app: "pi-investimento"
+#     env: "PiInvestimento-env"
+#     bucket_name: "elasticbeanstalk-us-east-1-779882487479"
