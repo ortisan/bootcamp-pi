@@ -6,7 +6,13 @@
             "image": "tentativafc/bootcamp-pi",
             "hostname": "api",
             "essential": true,
-            "memory": 128
+            "memory": 128,
+            "portMappings": [
+                {
+                    "hostPort": 5000,
+                    "containerPort": 5000
+                }
+            ]
         }
     ]
 }
