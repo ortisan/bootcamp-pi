@@ -2,5 +2,9 @@
 __pycache__/
 .venv/
 .elasticbeanstalk/
-.embeddings/
-.datasets/
+embeddings/
+datasets/
+venv/
+env/
+.idea/
+.pyteste_cache/
