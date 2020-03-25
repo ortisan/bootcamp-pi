@@ -4,6 +4,7 @@ import pandas as pd
 class Users:
     def __init__(self):
         self.dataframe = None
+        self.load()
     
     def load(self):
         self.dataframe = pd.read_csv('./embeddings/userEncodedEmbedded.csv', index_col=0)
@@ -36,6 +37,7 @@ class Users:
 class Products:
     def __init__(self):
         self.dataframe = None
+        self.load()
     
     def load(self):
         self.dataframe = pd.read_csv('./embeddings/productEncodedEmbedded.csv', index_col=0)
@@ -68,6 +70,7 @@ class Products:
 class DotProductsUser:
     def __init__(self):
         self.dataframe = None
+        self.load()
 
     def load(self):
         self.dataframe = pd.read_csv('./embeddings/dot_product_user.csv', index_col=0)

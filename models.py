@@ -16,7 +16,6 @@ class EmbeddingModel:
     def get_model(self):
         return self.model
 
-
 class RandomForestRegressor:
     def __init__(self):
         self.model = None
