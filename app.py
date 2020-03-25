@@ -15,13 +15,10 @@ def health_check():
 def recommendation_user_id():
     user_id = request.args.get('user_id')
     try:
-        products = similarProductUsers.neighbors_product_idx(user_id)
-        return jsonify(products)
+        products = similarProductUsers.neighbors_product_idx(user_id)        
+        return jsonify({"products": products.tolist()})
     except Exception as exc:
         return ("Error: {0}".format(exc))
-    # timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    # resp = [{'timestamp': timestamp}]
-    
 
 
 if __name__ == '__main__':    
