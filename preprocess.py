@@ -13,7 +13,7 @@ class PreProcessDataset1:
     def get_user_information_by_id(self, list_user_id):
         self.load()
         df = self.dataFrame
-        dict_list = list(df.loc[df.Id.isin([list_user_id])].drop_duplicates('Id')
+        dict_list = list(df.loc[df.Id.isin(list_user_id)].drop_duplicates('Id')
                          [['Id', 'Idade', 'NivelConhecimentoAtual', 'PerfilInvestidor', 'RendaMensal']]
                          .T.to_dict().values())
         return dict_list
