@@ -10,6 +10,14 @@ class PreProcessDataset1:
     def load(self):
         self.dataFrame = pd.read_csv('./datasets/Dataset-1.csv', encoding='utf_8', index_col=0)
 
+    def get_user_information_by_id(self, list_user_id):
+        self.load()
+        df = self.dataFrame
+        dict_list = list(df.loc[df.Id.isin([list_user_id])].drop_duplicates('Id')
+                         [['Id', 'Idade', 'NivelConhecimentoAtual', 'PerfilInvestidor', 'RendaMensal']]
+                         .T.to_dict().values())
+        return dict_list
+
     def process(self):
         df_rating = self.dataFrame.groupby(['Id', 'ProdutoId'])['Status'].count().reset_index()
         df_rating.sort_values('Id', inplace=True)
@@ -38,3 +46,21 @@ class PreProcessDataset1:
                                                'Link'])
 
         return df_rating_proc
+
+
+class PreProcessDataset3:
+    def __init__(self):
+        self.dataFrame = None
+
+    def load(self):
+        self.dataFrame = pd.read_csv('./datasets/Dataset-3.csv', encoding='utf_8', index_col=0)
+
+    def get_products_information_by_id(self, list_product_id):
+        self.load()
+        df = self.dataFrame
+        dict_list = list(df.loc[df.ProdutoId.isin(list_product_id)]
+                         [['DescricaoAtivo__c', 'RiscoAtivo__c']].T.to_dict().values())
+        return dict_list
+
+
+
