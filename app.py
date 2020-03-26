@@ -22,7 +22,7 @@ def recommendation_user_id():
         list_products_id = similarProductUsers.neighbors_products(user_id)
         user = preProcessDataset1.get_user_information_by_id([user_id])
         products = preProcessDataset3.get_products_information_by_id(list_products_id)
-        return jsonify({"user": user, "products": products})
+        return jsonify({"products": products, "user": user})
     except Exception as exc:
         return ("Error: {0}".format(exc))
 

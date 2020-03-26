@@ -44,8 +44,7 @@ class SimilarProductsUsers:
         user_idx = self.usersDao.user_id_to_idx([user_id])
         dists = np.dot(self.product_embeddings, self.user_embeddings[user_idx])
         closest_product_idx = np.argsort(dists)[-n_closest:]
-        return self.productsDao.idx_to_products(closest_product_idx.tolist())
-        return closest_product_idx
+        return self.productsDao.idx_to_products(closest_product_idx.tolist())[['ProdutoId']].values.reshape(1, -1)[0]
 
     def neighbors_user_idx(self, product_idx, n_closest=5):
         list_user = []
