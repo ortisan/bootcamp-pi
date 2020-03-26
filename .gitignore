@@ -2,7 +2,6 @@
 __pycache__/
 .venv/
 .elasticbeanstalk/
-embeddings/
 datasets/
 venv/
 env/
