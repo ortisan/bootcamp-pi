@@ -1,36 +1,29 @@
-from keras.models import load_model
 import _pickle as cPickle
+import math
 
-
-class EmbeddingModel:
-    def __init__(self):
-        self.model = None
-
-    def load(self):
-        self.model = load_model('./model/recommender_embeddings.h5')
-    
-    def predict(self, encoded_product_id, encoded_user_id):
-        prediction = self.model.predict([encoded_product_id, encoded_user_id])
-        return prediction
-
-    def get_model(self):
-        return self.model
 
 class RandomForestRegressor:
     def __init__(self):
         self.model = None
+        self.load()
     
     def load(self):
-        with open('./model/randomForestRegressor.cpickle', 'rb') as f:
+        with open('./models/randomForestRegressor.cpickle', 'rb') as f:
             self.model = cPickle.load(f)
 
-    def predict(self, dot_product_user):
+    def predict(self, df_dot_product):
             '''
-            :param dot_product_user: o produto interno precisa ser normalizado antes da estimação
+            :param df_dot_product: o produto interno precisa ser normalizado antes da estimação
             no arquivo helpers tem uma função para normalizar o produto
             :return:
             '''
-            return self.model.predict(dot_product_user)
+            X = df_dot_product.iloc[:, 2:].values
+            predictions = self.model.predict(X)
+            df_regression = df_dot_product.iloc[:, :2]
+            df_regression['ProductQuantity'] = predictions
+            df_regression['ProductQuantity'] = df_regression['ProductQuantity']\
+                .apply(lambda x: math.floor(x) if x > 1 else round(x))
+            return df_regression
 
     def get_model(self):
         return self.model

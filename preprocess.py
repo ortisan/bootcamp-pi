@@ -55,12 +55,14 @@ class PreProcessDataset3:
     def load(self):
         self.dataFrame = pd.read_csv('./datasets/Dataset-3.csv', encoding='utf_8', index_col=0)
 
-    def get_products_information_by_id(self, list_product_id):
+    def get_products_information_by_id(self, dict_products_id_similarity):
         self.load()
         df = self.dataFrame
-        dict_list = list(df.loc[df.ProdutoId.isin(list_product_id)]
-                         [['DescricaoAtivo__c', 'RiscoAtivo__c']].T.to_dict().values())
-        return dict_list
+        df_product = df.loc[df.ProdutoId.isin(dict_products_id_similarity.keys())][['ProdutoId', 'DescricaoAtivo__c', 'RiscoAtivo__c']]
+        df_product['Similarity'] = df_product.ProdutoId.map(dict_products_id_similarity)
+        df_product.sort_values('Similarity', ascending=False, inplace=True)
+        return df_product
+
 
 
 
