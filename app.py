@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
-from recommendations import SimilarUsers, SimilarProducts, SimilarProductsUsers, QuantityProductRegression
+from recommendations import SimilarUsers, SimilarProducts, SimilarProductsUsers, QuantityProductRegression,\
+    SimilarityEmbeddings
 from preprocess import PreProcessDataset1, PreProcessDataset3
 from helpers import from_dataframe_to_list_dict
 
 app = Flask(__name__)
 
+similarityEmbedding = SimilarityEmbeddings()
 similarProductUsers = SimilarProductsUsers()
 similarUsers = SimilarUsers()
 preProcessDataset1 = PreProcessDataset1()
@@ -55,12 +57,19 @@ def recommendation_user_to_user():
         list_current_product_id = preProcessDataset1.get_user_current_products([user_id])
 
         # similar products by users
-        dict_users_id_similarity = similarUsers.neighbors_user_id([user_id], n_closest=3)
+        dict_users_id_similarity = similarUsers.neighbors_user_id([user_id])
         list_similar_users_product_id = preProcessDataset1. \
             get_user_current_products(list(dict_users_id_similarity.keys()))
         df_neigh_products = preProcessDataset3.get_products_information_by_id(list_similar_users_product_id)
-        list_neigh_products = from_dataframe_to_list_dict(df_neigh_products)
+        # removing the products the user already has
+        df_neigh_products = df_neigh_products.loc[~df_neigh_products.ProdutoId.isin(list_current_product_id)]
         mean_neighbors_risk = df_neigh_products.RiscoAtivo__c.mean()
+
+        #calculate similarity product user
+        similarity_dict = similarityEmbedding.cossine_distance([user_id], list_similar_users_product_id)
+
+        #add similarity
+        df_neigh_products = preProcessDataset3.add_similarity_column(df_neigh_products, similarity_dict)
 
         # current information of the user products
         df_current_products = preProcessDataset3.get_products_information_by_id(list_current_product_id)
