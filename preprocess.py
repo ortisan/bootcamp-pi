@@ -6,17 +6,23 @@ from sklearn.preprocessing import OrdinalEncoder
 class PreProcessDataset1:
     def __init__(self):
         self.dataFrame = None
+        self.dataframe_processed = None
+        self.load()
+        self.process()
 
     def load(self):
         self.dataFrame = pd.read_csv('./datasets/Dataset-1.csv', encoding='utf_8', index_col=0)
 
     def get_user_information_by_id(self, list_user_id):
-        self.load()
-        df = self.dataFrame
-        dict_list = list(df.loc[df.Id.isin(list_user_id)].drop_duplicates('Id')
-                         [['Id', 'Idade', 'NivelConhecimentoAtual', 'PerfilInvestidor', 'RendaMensal']]
-                         .T.to_dict().values())
-        return dict_list
+        df = self.dataFrame.copy()
+        df_users = df.loc[df.Id.isin(list_user_id)].drop_duplicates('Id')[['Id', 'Idade', 'NivelConhecimentoAtual', 'PerfilInvestidor', 'RendaMensal']]
+        return df_users
+
+    @staticmethod
+    def add_similarity_column(df_users, dict_users_id_similarity):
+        df_users['Similarity'] = df_users.Id.map(dict_users_id_similarity)
+        df_users.sort_values('Similarity', ascending=False, inplace=True)
+        return df_users.iloc[:5, :]
 
     def process(self):
         df_rating = self.dataFrame.groupby(['Id', 'ProdutoId'])['Status'].count().reset_index()
@@ -45,23 +51,33 @@ class PreProcessDataset1:
                                       columns=['userId', 'ProdutoId', 'encodUserId', 'encodProdutoId', 'QtdProduto',
                                                'Link'])
 
-        return df_rating_proc
+        self.dataframe_processed = df_rating_proc
+
+    def get_user_current_products(self, list_user_id):
+        df = self.dataframe_processed
+        return list(df.loc[df.userId.isin(list_user_id)]['ProdutoId'].values)
 
 
 class PreProcessDataset3:
     def __init__(self):
         self.dataFrame = None
+        self.load()
 
     def load(self):
         self.dataFrame = pd.read_csv('./datasets/Dataset-3.csv', encoding='utf_8', index_col=0)
 
-    def get_products_information_by_id(self, dict_products_id_similarity):
-        self.load()
+    def get_products_information_by_id(self, list_product_id):
         df = self.dataFrame
-        df_product = df.loc[df.ProdutoId.isin(dict_products_id_similarity.keys())][['ProdutoId', 'DescricaoAtivo__c', 'RiscoAtivo__c']]
+        df_product = df.loc[df.ProdutoId.isin(list_product_id)][['ProdutoId', 'DescricaoAtivo__c', 'RiscoAtivo__c']]
+        return df_product
+
+    @staticmethod
+    def add_similarity_column(df_product, dict_products_id_similarity):
         df_product['Similarity'] = df_product.ProdutoId.map(dict_products_id_similarity)
         df_product.sort_values('Similarity', ascending=False, inplace=True)
-        return df_product
+        return df_product.iloc[:5, :]
+
+
 
 
 

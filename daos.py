@@ -22,13 +22,14 @@ class Users:
         return df.iloc[df.index.isin(list_idx)].values
 
     def user_id_to_embedding(self, list_user_id):
-        df = self.dataframe
-        df.drop(columns='encodUserId', inplace=True)
+        df = self.dataframe.copy()
+        df = df.drop(columns='encodUserId')
         return df.loc[df.userId.isin(list_user_id)]
 
     def idx_to_users(self, list_idx):
-        df = self.dataframe
-        return df.iloc[df.index.isin(list_idx)]
+        df = self.dataframe.copy()
+        df = df.iloc[df.index.isin(list_idx)]
+        return df
 
     def get_embeddings(self):
         df = self.dataframe
@@ -56,8 +57,8 @@ class Products:
         return df.loc[df.ProdutoId.isin(list_product_id)].index[0]
 
     def product_id_to_embedding(self, list_product_id):
-        df = self.dataframe
-        df.drop(columns='encodProdutoId', inplace=True)
+        df = self.dataframe.copy()
+        df = df.drop(columns='encodProdutoId')
         return df.loc[df.ProdutoId.isin(list_product_id)]
 
     def idx_to_embedding(self, list_idx):

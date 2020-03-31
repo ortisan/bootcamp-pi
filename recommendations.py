@@ -11,11 +11,16 @@ class SimilarUsers:
         self.usersDao = Users()
         self.user_embeddings = self.usersDao.get_embeddings()
 
-    def neighbors_user_id(self, user_id, n_closest=5):
-        user_idx = self.userDao.user_id_to_idx(user_id)
+    def neighbors_user_id(self, list_user_id, n_closest=10):
+        user_idx = self.usersDao.user_id_to_idx(list_user_id)
         dists = np.dot(self.user_embeddings, self.user_embeddings[user_idx])
         closest_user_idx = np.argsort(dists)[-n_closest:]
-        return closest_user_idx
+        similarity_dict = {}
+        for c in closest_user_idx:
+            local_user_id = self.usersDao.idx_to_users([c])[['userId']].values[0][0]
+            if local_user_id not in list_user_id:
+                similarity_dict.update({local_user_id: dists[c]})
+        return similarity_dict
 
 
 class SimilarProducts:
@@ -23,8 +28,7 @@ class SimilarProducts:
         self.productsDao = Products()
         self.product_embeddings = self.productsDao.get_embeddings()
 
-    def neighbors_product_idx(self, product_idx, n_closest=5):
-        list_user = []
+    def neighbors_product_idx(self, product_idx, n_closest=10):
         dists = np.dot(self.product_embeddings, self.product_embeddings[product_idx])
         closest_product_idx = np.argsort(dists)[-n_closest:]
         return closest_product_idx
@@ -37,14 +41,15 @@ class SimilarProductsUsers:
         self.productsDao = Products()
         self.product_embeddings = self.productsDao.get_embeddings()
 
-    def neighbors_products(self, user_id, n_closest=5):
+    def neighbors_products(self, user_id, list_current_product_id, n_closest=10):
         user_idx = self.usersDao.user_id_to_idx([user_id])
         dists = np.dot(self.product_embeddings, self.user_embeddings[user_idx])
         closest_product_idx = list(reversed(np.argsort(dists)[-n_closest:]))
         similarity_dict = {}
         for c in closest_product_idx:
             local_product_id = self.productsDao.idx_to_products([c])[['ProdutoId']].values[0][0]
-            similarity_dict.update({local_product_id: dists[c]})
+            if local_product_id not in list_current_product_id:
+                similarity_dict.update({local_product_id: dists[c]})
         return similarity_dict
 
     def neighbors_user_idx(self, product_idx, n_closest=5):
