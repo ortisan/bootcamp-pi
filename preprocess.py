@@ -11,8 +11,9 @@ class PreProcessDataset1:
         self.process()
 
     def load(self):
-        self.dataFrame = pd.read_csv('./datasets/Dataset-1.csv', encoding='utf_8', index_col=0, low_memory=False)
-
+        # self.dataFrame = pd.read_csv('./datasets/Dataset-1.csv', encoding='utf_8', index_col=0, low_memory=False)
+        # self.dataFrame.to_pickle('./datasets/Dataset-1.pkl')
+        self.dataFrame = pd.read_pickle('./datasets/Dataset-1.pkl')
     def get_user_information_by_id(self, list_user_id):
         df = self.dataFrame.copy()
         df_users = df.loc[df.Id.isin(list_user_id)].drop_duplicates('Id')[['Id', 'Idade', 'NivelConhecimentoAtual', 'PerfilInvestidor', 'RendaMensal']]
@@ -25,34 +26,37 @@ class PreProcessDataset1:
         return df_users
 
     def process(self):
-        df_rating = self.dataFrame.copy()
-        df_rating = df_rating.groupby(['Id', 'ProdutoId'])['Status'].count().reset_index()
-        df_rating.sort_values('Id', inplace=True)
-        df_rating.rename(columns={'Status': 'QtdProduto'}, inplace=True)
+        # df_rating = self.dataFrame.copy()
+        # df_rating = df_rating.groupby(['Id', 'ProdutoId'])['Status'].count().reset_index()
+        # df_rating.sort_values('Id', inplace=True)
+        # df_rating.rename(columns={'Status': 'QtdProduto'}, inplace=True)
 
-        df_rating = df_rating.pivot_table(index='Id', columns=['ProdutoId'],
-                                          values='QtdProduto').reset_index().fillna(0)
+        # df_rating = df_rating.pivot_table(index='Id', columns=['ProdutoId'],
+        #                                   values='QtdProduto').reset_index().fillna(0)
 
-        df_rating = df_rating.melt(id_vars='Id', value_name='QtdProduto')
-        df_zeros = df_rating.loc[df_rating.QtdProduto == 0].sample(frac=0.9975, random_state=42)
-        df_rating = df_rating.drop(df_zeros.index)
-        df_rating.reset_index(inplace=True, drop=True)
+        # df_rating = df_rating.melt(id_vars='Id', value_name='QtdProduto')
+        # df_zeros = df_rating.loc[df_rating.QtdProduto == 0].sample(frac=0.9975, random_state=42)
+        # df_rating = df_rating.drop(df_zeros.index)
+        # df_rating.reset_index(inplace=True, drop=True)
 
-        df_rating.QtdProduto = df_rating.QtdProduto.astype(int)
-        df_rating['Link'] = np.where(df_rating.QtdProduto > 0, 1, 0)
+        # df_rating.QtdProduto = df_rating.QtdProduto.astype(int)
+        # df_rating['Link'] = np.where(df_rating.QtdProduto > 0, 1, 0)
 
-        ordinal_encoder = OrdinalEncoder()
+        # ordinal_encoder = OrdinalEncoder()
 
-        user_id_encoded = ordinal_encoder.fit_transform(df_rating[['Id']])
-        product_id_encoded = ordinal_encoder.fit_transform(df_rating[['ProdutoId']])
+        # user_id_encoded = ordinal_encoder.fit_transform(df_rating[['Id']])
+        # product_id_encoded = ordinal_encoder.fit_transform(df_rating[['ProdutoId']])
 
-        df_rating_proc = pd.DataFrame(np.c_[df_rating.Id.values, df_rating.ProdutoId.values,
-                                            user_id_encoded, product_id_encoded, df_rating.QtdProduto.values,
-                                            df_rating.Link.values],
-                                      columns=['userId', 'ProdutoId', 'encodUserId', 'encodProdutoId', 'QtdProduto',
-                                               'Link'])
+        # df_rating_proc = pd.DataFrame(np.c_[df_rating.Id.values, df_rating.ProdutoId.values,
+        #                                     user_id_encoded, product_id_encoded, df_rating.QtdProduto.values,
+        #                                     df_rating.Link.values],
+        #                               columns=['userId', 'ProdutoId', 'encodUserId', 'encodProdutoId', 'QtdProduto',
+        #                                        'Link'])
 
-        self.dataframe_processed = df_rating_proc
+        # self.dataframe_processed = df_rating_proc
+        # self.dataframe_processed.to_pickle('./datasets/dataframe1_processed.pkl')
+        self.dataframe_processed = pd.read_pickle('./datasets/dataframe1_processed.pkl')
+
 
     def get_user_current_products(self, list_user_id):
         df = self.dataframe_processed.copy()
@@ -66,7 +70,10 @@ class PreProcessDataset3:
         self.load()
 
     def load(self):
-        self.dataFrame = pd.read_csv('./datasets/Dataset-3.csv', encoding='utf_8', index_col=0, low_memory=False)
+        # self.dataFrame = pd.read_csv('./datasets/Dataset-3.csv', encoding='utf_8', index_col=0, low_memory=False)
+        # self.dataFrame.to_pickle('./datasets/Dataset-3.pkl')
+        self.dataFrame = pd.read_pickle('./datasets/Dataset-3.pkl')
+
 
     def get_products_information_by_id(self, list_product_id):
         df = self.dataFrame
