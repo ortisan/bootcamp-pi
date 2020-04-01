@@ -7,7 +7,7 @@
             "hostname": "api",
             "essential": true,
             "memory": 128,
-            "cpu": 4,
+            "cpu": 2,
             "portMappings": [
                 {
                     "hostPort": 5000,
