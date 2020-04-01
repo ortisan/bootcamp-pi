@@ -7,15 +7,15 @@ class Users:
         self.load()
     
     def load(self):
-        self.dataframe = pd.read_csv('./embeddings/userEncodedEmbedded.csv', index_col=0)
+        self.dataframe = pd.read_csv('./embeddings/userEncodedEmbedded.csv', index_col=0, low_memory=False)
 
     def user_id_to_encoding(self, list_user_id):
         df = self.dataframe.copy()
         return df.loc[df.userId.isin(list_user_id)]['encodUserId'].values
     
-    def user_id_to_idx(self, list_user_id):
+    def user_id_to_idx(self, user_id):
         df = self.dataframe.copy()
-        return df.loc[df.userId.isin(list_user_id)].index[0]
+        return df.loc[df.userId == user_id].index[0]
 
     def idx_to_embedding(self, list_idx):
         df = self.dataframe.copy()
@@ -46,7 +46,7 @@ class Products:
         self.load()
     
     def load(self):
-        self.dataframe = pd.read_csv('./embeddings/productEncodedEmbedded.csv', index_col=0)
+        self.dataframe = pd.read_csv('./embeddings/productEncodedEmbedded.csv', index_col=0, low_memory=False)
 
     def product_id_to_encoding(self, list_product_id):
         df = self.dataframe.copy()
@@ -84,7 +84,7 @@ class DotProductsUser:
         self.load()
 
     def load(self):
-        self.dataframe = pd.read_csv('./embeddings/dot_product_user.csv', index_col=0)
+        self.dataframe = pd.read_csv('./embeddings/dot_product_user.csv', index_col=0, low_memory=False)
 
     def user_id_to_product_id(self, list_user_id):
         df = self.dataframe.copy()

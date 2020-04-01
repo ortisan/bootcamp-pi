@@ -11,7 +11,7 @@ class PreProcessDataset1:
         self.process()
 
     def load(self):
-        self.dataFrame = pd.read_csv('./datasets/Dataset-1.csv', encoding='utf_8', index_col=0)
+        self.dataFrame = pd.read_csv('./datasets/Dataset-1.csv', encoding='utf_8', index_col=0, low_memory=False)
 
     def get_user_information_by_id(self, list_user_id):
         df = self.dataFrame.copy()
@@ -22,10 +22,11 @@ class PreProcessDataset1:
     def add_similarity_column(df_users, dict_users_id_similarity):
         df_users['Similarity'] = df_users.Id.map(dict_users_id_similarity)
         df_users.sort_values('Similarity', ascending=False, inplace=True)
-        return df_users.iloc[:5, :]
+        return df_users
 
     def process(self):
-        df_rating = self.dataFrame.groupby(['Id', 'ProdutoId'])['Status'].count().reset_index()
+        df_rating = self.dataFrame.copy()
+        df_rating = df_rating.groupby(['Id', 'ProdutoId'])['Status'].count().reset_index()
         df_rating.sort_values('Id', inplace=True)
         df_rating.rename(columns={'Status': 'QtdProduto'}, inplace=True)
 
@@ -33,7 +34,7 @@ class PreProcessDataset1:
                                           values='QtdProduto').reset_index().fillna(0)
 
         df_rating = df_rating.melt(id_vars='Id', value_name='QtdProduto')
-        df_zeros = df_rating.loc[df_rating.QtdProduto == 0].sample(frac=0.9975)
+        df_zeros = df_rating.loc[df_rating.QtdProduto == 0].sample(frac=0.9975, random_state=42)
         df_rating = df_rating.drop(df_zeros.index)
         df_rating.reset_index(inplace=True, drop=True)
 
@@ -54,7 +55,8 @@ class PreProcessDataset1:
         self.dataframe_processed = df_rating_proc
 
     def get_user_current_products(self, list_user_id):
-        df = self.dataframe_processed
+        df = self.dataframe_processed.copy()
+        df = df.loc[df.QtdProduto > 0]
         return list(df.loc[df.userId.isin(list_user_id)]['ProdutoId'].values)
 
 
@@ -64,7 +66,7 @@ class PreProcessDataset3:
         self.load()
 
     def load(self):
-        self.dataFrame = pd.read_csv('./datasets/Dataset-3.csv', encoding='utf_8', index_col=0)
+        self.dataFrame = pd.read_csv('./datasets/Dataset-3.csv', encoding='utf_8', index_col=0, low_memory=False)
 
     def get_products_information_by_id(self, list_product_id):
         df = self.dataFrame
@@ -75,7 +77,7 @@ class PreProcessDataset3:
     def add_similarity_column(df_product, dict_products_id_similarity):
         df_product['Similarity'] = df_product.ProdutoId.map(dict_products_id_similarity)
         df_product.sort_values('Similarity', ascending=False, inplace=True)
-        return df_product.iloc[:5, :]
+        return df_product
 
 
 
