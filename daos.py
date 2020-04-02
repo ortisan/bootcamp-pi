@@ -7,7 +7,7 @@ class Users:
         self.load()
     
     def load(self):
-        self.dataframe = pd.read_csv('./embeddings/userEncodedEmbedded.csv', index_col=0, low_memory=False)
+        self.dataframe = pd.read_csv('./embeddings/userEncodedEmbedded.csv', index_col=0, low_memory=False, engine='python')
 
     def user_id_to_encoding(self, list_user_id):
         df = self.dataframe.copy()
@@ -46,7 +46,7 @@ class Products:
         self.load()
     
     def load(self):
-        self.dataframe = pd.read_csv('./embeddings/productEncodedEmbedded.csv', index_col=0, low_memory=False)
+        self.dataframe = pd.read_csv('./embeddings/productEncodedEmbedded.csv', index_col=0, low_memory=False, engine='python')
 
     def product_id_to_encoding(self, list_product_id):
         df = self.dataframe.copy()
@@ -84,7 +84,7 @@ class DotProductsUser:
         self.load()
 
     def load(self):
-        self.dataframe = pd.read_csv('./embeddings/dot_product_user.csv', index_col=0, low_memory=False)
+        self.dataframe = pd.read_csv('./embeddings/dot_product_user.csv', index_col=0, low_memory=False, engine='python')
 
     def user_id_to_product_id(self, list_user_id):
         df = self.dataframe.copy()
