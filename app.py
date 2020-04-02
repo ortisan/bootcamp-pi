@@ -1,18 +1,17 @@
 from flask import Flask, request, jsonify
-# from recommendations import SimilarUsers, SimilarProducts, SimilarProductsUsers, QuantityProductRegression,\
-#     SimilarityEmbeddings
-# from preprocess import PreProcessDataset1, PreProcessDataset3
-# from helpers import from_dataframe_to_list_dict
+from recommendations import SimilarUsers, SimilarProducts, SimilarProductsUsers, QuantityProductRegression, SimilarityEmbeddings
+from preprocess import PreProcessDataset1, PreProcessDataset3
+from helpers import from_dataframe_to_list_dict
 
 app = Flask(__name__)
 
-# similarityEmbedding = SimilarityEmbeddings()
-# similarProductUsers = SimilarProductsUsers()
-# similarUsers = SimilarUsers()
-# similarProducts = SimilarProducts()
-# preProcessDataset1 = PreProcessDataset1()
-# preProcessDataset3 = PreProcessDataset3()
-# quantityProductRegression = QuantityProductRegression()
+similarityEmbedding = SimilarityEmbeddings()
+similarProductUsers = SimilarProductsUsers()
+similarUsers = SimilarUsers()
+similarProducts = SimilarProducts()
+preProcessDataset1 = PreProcessDataset1()
+preProcessDataset3 = PreProcessDataset3()
+quantityProductRegression = QuantityProductRegression()
 
 
 @app.route('/')
