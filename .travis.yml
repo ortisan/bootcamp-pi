@@ -3,7 +3,7 @@ sudo: required
 services: docker
 
 before_install:
-    - docker build -t tentativafc/bootcamp-pi-test -f ./Dockerfile.dev .
+    - docker build -t --no-cache tentativafc/bootcamp-pi-test -f ./Dockerfile.dev .
 
 script:
     - docker run tentativafc/bootcamp-pi-test pytest
@@ -11,7 +11,7 @@ script:
 after_success:
     ### Login into docker cli
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker build -t $DOCKER_USERNAME/bootcamp-pi .    
+    - docker build --no-cache -t $DOCKER_USERNAME/bootcamp-pi .    
     - docker push $DOCKER_USERNAME/bootcamp-pi
 
 deploy:
