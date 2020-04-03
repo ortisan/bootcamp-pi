@@ -133,7 +133,7 @@ if __name__ == '__main__':
     try:
         print("Configuring datasources...")    
         similarityEmbedding = SimilarityEmbeddings()
-        # similarProductUsers = SimilarProductsUsers()
+        similarProductUsers = SimilarProductsUsers()
         # similarUsers = SimilarUsers()
         # similarProducts = SimilarProducts()
         # preProcessDataset1 = PreProcessDataset1()
