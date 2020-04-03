@@ -6,12 +6,12 @@ from helpers import from_dataframe_to_list_dict
 app = Flask(__name__)
 
 similarityEmbedding = None
-# similarProductUsers = None
-# similarUsers = None
-# similarProducts = None
-# preProcessDataset1 = None
-# preProcessDataset3 = None
-# quantityProductRegression = None
+similarProductUsers = None
+similarUsers = None
+similarProducts = None
+preProcessDataset1 = None
+preProcessDataset3 = None
+quantityProductRegression = None
 
 @app.route('/')
 def health_check():
@@ -132,12 +132,12 @@ if __name__ == '__main__':
 
     try:
         similarityEmbedding = SimilarityEmbeddings()
-        # similarProductUsers = SimilarProductsUsers()
-        # similarUsers = SimilarUsers()
-        # similarProducts = SimilarProducts()
-        # preProcessDataset1 = PreProcessDataset1()
-        # preProcessDataset3 = PreProcessDataset3()
-        # quantityProductRegression = QuantityProductRegression()
+        similarProductUsers = SimilarProductsUsers()
+        similarUsers = SimilarUsers()
+        similarProducts = SimilarProducts()
+        preProcessDataset1 = PreProcessDataset1()
+        preProcessDataset3 = PreProcessDataset3()
+        quantityProductRegression = QuantityProductRegression()
     except Exception as exc:
         print(exc)
         raise exc
