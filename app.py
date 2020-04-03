@@ -5,13 +5,14 @@ from helpers import from_dataframe_to_list_dict
 
 app = Flask(__name__)
 
-similarityEmbedding = None
-similarProductUsers = None
-similarUsers = None
-similarProducts = None
-preProcessDataset1 = None
-preProcessDataset3 = None
-quantityProductRegression = None
+ 
+similarityEmbedding = SimilarityEmbeddings()
+similarProductUsers = SimilarProductsUsers()
+similarUsers = SimilarUsers()
+similarProducts = SimilarProducts()
+preProcessDataset1 = PreProcessDataset1()
+preProcessDataset3 = PreProcessDataset3()
+quantityProductRegression = QuantityProductRegression()
 
 @app.route('/')
 def health_check():
@@ -128,19 +129,6 @@ def recommendation_product_to_product():
         return "Error: {0}".format(exc)
 
 
-if __name__ == '__main__':
-    try:
-        print("Configuring datasources...")    
-        similarityEmbedding = SimilarityEmbeddings()
-        similarProductUsers = SimilarProductsUsers()
-        similarUsers = SimilarUsers()
-        similarProducts = SimilarProducts()
-        preProcessDataset1 = PreProcessDataset1()
-        preProcessDataset3 = PreProcessDataset3()
-        quantityProductRegression = QuantityProductRegression()
-        print("Starting app...")
-    except Exception as exc:
-        print('#### ERROR', exc)
-        #raise exc
+if __name__ == '__main__':    
     app.run(debug=False, host='0.0.0.0', port=5000)
     
