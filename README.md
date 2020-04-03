@@ -19,4 +19,12 @@ Rodar a imagem de teste
 docker run tentativafc/bootcamp-pi-test pytest
 ```
 
+```sh
+docker build -t tentativafc/bootcamp-pi .
+```
+
+```sh
+docker run -p 5000:5000 tentativafc/bootcamp-pi
+```
+
 
