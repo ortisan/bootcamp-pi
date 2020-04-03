@@ -133,12 +133,12 @@ if __name__ == '__main__':
     try:
         print("Configuring datasources...")    
         similarityEmbedding = SimilarityEmbeddings()
-        similarProductUsers = SimilarProductsUsers()
-        similarUsers = SimilarUsers()
-        similarProducts = SimilarProducts()
-        preProcessDataset1 = PreProcessDataset1()
-        preProcessDataset3 = PreProcessDataset3()
-        quantityProductRegression = QuantityProductRegression()
+        # similarProductUsers = SimilarProductsUsers()
+        # similarUsers = SimilarUsers()
+        # similarProducts = SimilarProducts()
+        # preProcessDataset1 = PreProcessDataset1()
+        # preProcessDataset3 = PreProcessDataset3()
+        # quantityProductRegression = QuantityProductRegression()
         print("Starting app...")
     except Exception as exc:
         print('#### ERROR', exc)
