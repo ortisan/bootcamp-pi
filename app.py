@@ -132,12 +132,12 @@ if __name__ == '__main__':
 
     try:
         similarityEmbedding = SimilarityEmbeddings()
-        similarProductUsers = SimilarProductsUsers()
-        similarUsers = SimilarUsers()
-        similarProducts = SimilarProducts()
-        preProcessDataset1 = PreProcessDataset1()
-        preProcessDataset3 = PreProcessDataset3()
-        quantityProductRegression = QuantityProductRegression()
+        # similarProductUsers = SimilarProductsUsers()
+        # similarUsers = SimilarUsers()
+        # similarProducts = SimilarProducts()
+        # preProcessDataset1 = PreProcessDataset1()
+        # preProcessDataset3 = PreProcessDataset3()
+        # quantityProductRegression = QuantityProductRegression()
     except Exception as exc:
         print(exc)
         raise exc
