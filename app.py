@@ -131,6 +131,7 @@ def recommendation_product_to_product():
 if __name__ == '__main__':
 
     try:
+        print("Configuring datasources...")    
         similarityEmbedding = SimilarityEmbeddings()
         similarProductUsers = SimilarProductsUsers()
         similarUsers = SimilarUsers()
@@ -138,8 +139,9 @@ if __name__ == '__main__':
         preProcessDataset1 = PreProcessDataset1()
         preProcessDataset3 = PreProcessDataset3()
         quantityProductRegression = QuantityProductRegression()
+        print("Starting app...")
     except Exception as exc:
         print('#### ERROR', exc)
         #raise exc
-
     app.run(debug=False, host='0.0.0.0', port=5000)
+    
