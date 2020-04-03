@@ -5,7 +5,7 @@ from helpers import from_dataframe_to_list_dict
 
 app = Flask(__name__)
 
-# similarityEmbedding = None
+similarityEmbedding = None
 # similarProductUsers = None
 # similarUsers = None
 # similarProducts = None
@@ -130,16 +130,16 @@ def health_check():
 
 if __name__ == '__main__':
 
-    # try:
-    #     similarityEmbedding = SimilarityEmbeddings()
-    #     similarProductUsers = SimilarProductsUsers()
-    #     similarUsers = SimilarUsers()
-    #     similarProducts = SimilarProducts()
-    #     preProcessDataset1 = PreProcessDataset1()
-    #     preProcessDataset3 = PreProcessDataset3()
-    #     quantityProductRegression = QuantityProductRegression()
-    # except Exception as exc:
-    #     print(exc)
-    #     raise exc
+    try:
+        similarityEmbedding = SimilarityEmbeddings()
+        # similarProductUsers = SimilarProductsUsers()
+        # similarUsers = SimilarUsers()
+        # similarProducts = SimilarProducts()
+        # preProcessDataset1 = PreProcessDataset1()
+        # preProcessDataset3 = PreProcessDataset3()
+        # quantityProductRegression = QuantityProductRegression()
+    except Exception as exc:
+        print(exc)
+        raise exc
 
     app.run(debug=False, host='0.0.0.0', port=5000)
